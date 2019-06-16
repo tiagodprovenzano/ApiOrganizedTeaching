@@ -123,10 +123,6 @@ class AppDAO {
         return new Promise((res, rej)=>{
             this.query('Select * from Users where UserKey = ?;', [UserKey]).then(
                 o=>{
-                    console.log('o', o);
-                    if(!o){
-                        
-                    }
                     res(o)
                 }
             )
