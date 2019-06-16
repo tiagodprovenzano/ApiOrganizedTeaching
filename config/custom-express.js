@@ -1,7 +1,7 @@
 const express =  require('express')
 const consign = require('consign')
 const bodyParser = require('body-parser')
-const sessionAuth = require('./sessionAuth')
+// const sessionAuth = require('./sessionAuth')
 module.exports = () => {
     const app = express()
         app.use(bodyParser.urlencoded({extended:true}))
