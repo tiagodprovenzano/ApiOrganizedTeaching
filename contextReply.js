@@ -4,5 +4,6 @@ module.exports = (context, value, resp) =>{
         "value": value,
     }
     resp.header("Access-Control-Allow-Origin", "*")
+    resp.header("Access-Control-Allow-Origin", "Origin, X-Requested-With, Content-Type, Accept");
     resp.json(reply)
 }
