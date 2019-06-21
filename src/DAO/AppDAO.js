@@ -4,6 +4,7 @@ class AppDAO {
         this.connection = connection
         this.filter = ''
         this.top = ''
+        this.orderby = ''
         if(!!headers){
             if(headers.filter){
 
@@ -12,6 +13,10 @@ class AppDAO {
             if(headers.top){
 
                 this._top(headers.top)
+            }
+            if(headers.orderby){
+
+                this._orderby(headers.orderby)
             }
         }
     }
@@ -50,10 +55,20 @@ class AppDAO {
         }
     }
 
+    _orderby(orderby){
+        if(this.orderby === ''){
+            
+            this.orderby = ` ORDER BY ${orderby}`
+        }else{
+
+            
+        }
+    }
+
     select(){
         return new Promise((res, rej)=>{
             
-            this.connection.query(`SELECT * FROM ${this.table} ${this.filter} ${this.top};`, [], 
+            this.connection.query(`SELECT * FROM ${this.table} ${this.filter}${this.top}${this.orderby};`, [], 
                 (e,s)=>{
                     // console.log('e', e);
                     const val = this.reply(e,s)
