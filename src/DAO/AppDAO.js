@@ -5,14 +5,15 @@ class AppDAO {
         this.filter = ''
         this.top = ''
         this.orderby = ''
+        this.skip = ''
         if(!!headers){
             if(headers.filter){
 
                 this._filter(headers.filter)
             }
-            if(headers.top){
+            if(headers.top || headers.skip){
 
-                this._top(headers.top)
+                this._limit(headers.top, headers.skip)
             }
             if(headers.orderby){
 
@@ -45,14 +46,21 @@ class AppDAO {
         }
     }
 
-    _top(top){
-        if(this.top === ''){
+    _limit(top, skip){
+        if(top && skip){
+            
+            this.top = ` LIMIT ${skip},${top}`
+            return
+        }
+        if(top){
             
             this.top = ` LIMIT ${top}`
-        }else{
-
-            
+            return
         }
+        if(skip && !top){
+            this.top = ''
+            return
+        }        
     }
 
     _orderby(orderby){
