@@ -7,9 +7,14 @@ class mainController {
         this.app = app
     }
 
+    createConnection(headers, connection){
+        const DAO = new AppDAO(this.endpoint, connection, headers)
+        return DAO;
+    }
+
     get(req, resp){
         const connection = this.app.DAOConfig.connectionFactory()
-        const DAO = new AppDAO(this.endpoint, connection)
+        const DAO = this.createConnection(req.headers, connection)
         DAO.checkUserKey(req.headers.userkey).then(
             user=>{
                 // console.log('user', user);
@@ -37,7 +42,8 @@ class mainController {
              return
         }
         const connection = this.app.DAOConfig.connectionFactory()
-        const DAO = new AppDAO(this.endpoint, connection)
+        const DAO = this.createConnection(req.headers, connection)
+
         DAO.checkUserKey(req.headers.userkey).then(
             user=>{
                 // console.log('user', user);
@@ -64,7 +70,9 @@ class mainController {
             reply(req.path, "Invalid Id.", resp)
         }
         const connection = this.app.DAOConfig.connectionFactory()
-        const DAO = new AppDAO(this.endpoint, connection)
+
+        const DAO = this.createConnection(req.headers, connection)
+
         DAO.checkUserKey(req.headers.userkey).then(
             user=>{
                 // console.log('user', user);
@@ -90,7 +98,7 @@ class mainController {
             reply(req.path, "Invalid Id.", resp)
         }
         const connection = this.app.DAOConfig.connectionFactory()
-        const DAO = new AppDAO(this.endpoint, connection)
+        const DAO = this.createConnection(req.headers, connection)
         DAO.checkUserKey(req.headers.userkey).then(
             user=>{
                 // console.log('user', user);

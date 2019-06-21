@@ -1,8 +1,19 @@
 class AppDAO {
-    constructor(table, connection){
+    constructor(table, connection, headers){
         this.table = table
         this.connection = connection
         this.filter = ''
+        this.top = ''
+        if(!!headers){
+            if(headers.filter){
+
+                this._filter(headers.filter)
+            }
+            if(headers.top){
+
+                this._top(headers.top)
+            }
+        }
     }
 
     query(query, values){
@@ -19,7 +30,7 @@ class AppDAO {
         })
     }
 
-    filter(filter){
+    _filter(filter){
         if(this.filter === ''){
             
             this.filter = ` WHERE ${filter}`
@@ -29,11 +40,22 @@ class AppDAO {
         }
     }
 
+    _top(top){
+        if(this.top === ''){
+            
+            this.top = ` LIMIT ${top}`
+        }else{
+
+            
+        }
+    }
+
     select(){
         return new Promise((res, rej)=>{
             
-            this.connection.query(`SELECT * FROM ${this.table} ${this.filter};`, [], 
+            this.connection.query(`SELECT * FROM ${this.table} ${this.filter} ${this.top};`, [], 
                 (e,s)=>{
+                    // console.log('e', e);
                     const val = this.reply(e,s)
                     res(val)
                 }
@@ -44,7 +66,6 @@ class AppDAO {
 
     selectById(Id){
         return new Promise((res, rej)=>{
-            
             this.connection.query(`SELECT * FROM ${this.table} where id = ?;`, [Id], 
                 (e,s)=>{
                     const val = this.reply(e,s)
