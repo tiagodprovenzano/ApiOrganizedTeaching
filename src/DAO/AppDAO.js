@@ -68,7 +68,7 @@ class AppDAO {
     select(){
         return new Promise((res, rej)=>{
             
-            this.connection.query(`SELECT * FROM ${this.table} ${this.filter}${this.top}${this.orderby};`, [], 
+            this.connection.query(`SELECT * FROM ${this.table} ${this.filter}${this.orderby}${this.top};`, [], 
                 (e,s)=>{
                     // console.log('e', e);
                     const val = this.reply(e,s)
